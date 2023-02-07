@@ -8,16 +8,27 @@
 import UIKit
 
 class EventsTableViewCell: UITableViewCell {
-
-    override func awakeFromNib() {
-        super.awakeFromNib()
-        // Initialization code
+    
+    private lazy var nameLabel: UILabel = {
+        let label = UILabel()
+        return label
+    }()
+    
+    override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
+        super.init(style: .value1, reuseIdentifier: K.cellIndentifier)
     }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
-
+    
+    func setCell(with event: Event) {
+        nameLabel.text = event.name
+        addSubview(nameLabel)
+        nameLabel.translatesAutoresizingMaskIntoConstraints = false
+        nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
+        nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        nameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16).isActive = true
+    }
 }
