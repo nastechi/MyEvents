@@ -11,7 +11,7 @@ import RxCocoa
 
 final class EventsTableViewController: UIViewController {
     
-    private let viewModel = EventsViewModel()
+    private let viewModel: EventsViewModel
     private var disposeBag = DisposeBag()
     
     private lazy var eventsTableView: UITableView = {
@@ -20,7 +20,16 @@ final class EventsTableViewController: UIViewController {
         tableView.register(EventsTableViewCell.self, forCellReuseIdentifier: K.cellIndentifier)
         return tableView
     }()
-
+    
+    init(viewModel: EventsViewModel) {
+        self.viewModel = viewModel
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         viewModel.fetchEvents()
@@ -42,10 +51,9 @@ final class EventsTableViewController: UIViewController {
     }
 }
 
-extension EventsTableViewController: UIScrollViewDelegate {
-    
-}
-
 extension EventsTableViewController: UITableViewDelegate {
-    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        tableView.deselectRow(at: indexPath, animated: true)
+        viewModel.goToDetailPage(for: indexPath)
+    }
 }

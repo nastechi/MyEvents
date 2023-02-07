@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0904DC8929927C0600232057 /* DetailViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904DC8829927C0600232057 /* DetailViewController.swift */; };
+		0904DC8B29927D1000232057 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904DC8A29927D1000232057 /* AppCoordinator.swift */; };
+		0904DC8D29928A4300232057 /* DetailViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0904DC8C29928A4300232057 /* DetailViewModel.swift */; };
 		09F2963D299228C8005B19C9 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F2963C299228C8005B19C9 /* AppDelegate.swift */; };
 		09F2963F299228C8005B19C9 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F2963E299228C8005B19C9 /* SceneDelegate.swift */; };
 		09F29641299228C8005B19C9 /* EventsTableViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 09F29640299228C8005B19C9 /* EventsTableViewController.swift */; };
@@ -23,6 +26,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0904DC8829927C0600232057 /* DetailViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewController.swift; sourceTree = "<group>"; };
+		0904DC8A29927D1000232057 /* AppCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppCoordinator.swift; sourceTree = "<group>"; };
+		0904DC8C29928A4300232057 /* DetailViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DetailViewModel.swift; sourceTree = "<group>"; };
 		09F29639299228C8005B19C9 /* MyEvents.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyEvents.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		09F2963C299228C8005B19C9 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		09F2963E299228C8005B19C9 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -72,6 +78,7 @@
 			children = (
 				09F2963C299228C8005B19C9 /* AppDelegate.swift */,
 				09F2963E299228C8005B19C9 /* SceneDelegate.swift */,
+				0904DC8A29927D1000232057 /* AppCoordinator.swift */,
 				09F2966229927380005B19C9 /* Model */,
 				09F296632992738D005B19C9 /* ViewModel */,
 				09F296612992736E005B19C9 /* Controller */,
@@ -89,6 +96,7 @@
 			isa = PBXGroup;
 			children = (
 				09F29640299228C8005B19C9 /* EventsTableViewController.swift */,
+				0904DC8829927C0600232057 /* DetailViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -106,6 +114,7 @@
 			isa = PBXGroup;
 			children = (
 				09F2965529922B0B005B19C9 /* EventsViewModel.swift */,
+				0904DC8C29928A4300232057 /* DetailViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -195,13 +204,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0904DC8B29927D1000232057 /* AppCoordinator.swift in Sources */,
 				09F29641299228C8005B19C9 /* EventsTableViewController.swift in Sources */,
 				09F2965629922B0B005B19C9 /* EventsViewModel.swift in Sources */,
 				09F2965C299232CA005B19C9 /* EventData.swift in Sources */,
 				09F2963D299228C8005B19C9 /* AppDelegate.swift in Sources */,
 				09F2963F299228C8005B19C9 /* SceneDelegate.swift in Sources */,
 				09F2965A29922ED1005B19C9 /* EventsTableViewCell.swift in Sources */,
+				0904DC8D29928A4300232057 /* DetailViewModel.swift in Sources */,
 				09F2965829922B7D005B19C9 /* Event.swift in Sources */,
+				0904DC8929927C0600232057 /* DetailViewController.swift in Sources */,
 				09F29660299272FC005B19C9 /* Keys.swift in Sources */,
 				09F2965E299272D3005B19C9 /* Constants.swift in Sources */,
 			);

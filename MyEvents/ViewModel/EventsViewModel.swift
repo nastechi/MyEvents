@@ -9,8 +9,15 @@ import Foundation
 import RxSwift
 import RxCocoa
 
-class EventsViewModel {
-    var events = BehaviorSubject(value: [Event]())
+final class EventsViewModel {
+    
+    var appCoordinator: AppCoordinator
+    var events: BehaviorSubject<[Event]>
+    
+    init(appCoordinator: AppCoordinator, events: BehaviorSubject<[Event]>) {
+        self.appCoordinator = appCoordinator
+        self.events = events
+    }
     
     func fetchEvents() {
         guard let url = URL(string: "https://app.ticketmaster.com/discovery/v2/events.json?apikey=\(Keys.apiKey)") else { return }
@@ -58,5 +65,11 @@ class EventsViewModel {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "yyyy-MM-ddHH-mm-ss"
         return dateFormatter.date(from: dateStr)
+    }
+    
+    func goToDetailPage(for indexPath: IndexPath) {
+        if let event = try? events.value()[indexPath.row] {
+            appCoordinator.goToDetailPage(event: event)
+        }
     }
 }
