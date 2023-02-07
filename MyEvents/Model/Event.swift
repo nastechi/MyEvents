@@ -12,4 +12,5 @@ struct Event {
     let type: String
     let imageUrl: String?
     let date: Date?
+    var visited: Int
 }
