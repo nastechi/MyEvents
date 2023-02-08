@@ -28,10 +28,18 @@ class DetailViewController: UIViewController {
         return button
     }()
     
-    init(event: Event, viewModel: DetailViewModel) {
+    private lazy var eventImageView: UIImageView = {
+        let imageView = UIImageView()
+        imageView.contentMode = .scaleAspectFill
+        imageView.clipsToBounds = true
+        return imageView
+    }()
+    
+    init(event: Event, image: UIImage?, viewModel: DetailViewModel) {
         self.event = event
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
+        eventImageView.image = image
     }
     
     required init?(coder: NSCoder) {
@@ -51,6 +59,7 @@ class DetailViewController: UIViewController {
     private func layoutView() {
         view.addSubview(backButton)
         view.addSubview(titleLabel)
+        view.addSubview(eventImageView)
         setConstrains()
     }
     
@@ -63,5 +72,11 @@ class DetailViewController: UIViewController {
         titleLabel.topAnchor.constraint(equalTo: backButton.bottomAnchor, constant: 16).isActive = true
         titleLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         titleLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        
+        eventImageView.translatesAutoresizingMaskIntoConstraints = false
+        eventImageView.heightAnchor.constraint(equalToConstant: 300).isActive = true
+        eventImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6).isActive = true
+        eventImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        eventImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     }
 }

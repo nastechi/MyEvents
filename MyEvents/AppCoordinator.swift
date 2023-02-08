@@ -41,9 +41,9 @@ class AppCoordinator: Coordinator {
         navigationController.pushViewController(eventsVC, animated: true)
     }
     
-    func goToDetailPage(event: Event) {
+    func goToDetailPage(event: Event, image: UIImage?) {
         let viewModel = DetailViewModel(appCoordinator: self)
-        let detailVC = DetailViewController(event: event, viewModel: viewModel)
+        let detailVC = DetailViewController(event: event, image: image, viewModel: viewModel)
         navigationController.pushViewController(detailVC, animated: true)
     }
     

@@ -90,7 +90,12 @@ final class EventsViewModel {
     func goToDetailPage(for indexPath: IndexPath) {
         if var eventsArray = try? events.value() {
             let event = eventsArray[indexPath.row]
-            appCoordinator.goToDetailPage(event: event)
+            if let imageUrl = event.imageUrl {
+                let image = imageCache.object(forKey: imageUrl as NSString)
+                appCoordinator.goToDetailPage(event: event, image: image)
+            } else {
+                appCoordinator.goToDetailPage(event: event, image: nil)
+            }
             eventsArray[indexPath.row].visited = true
             events.onNext(eventsArray)
         }
