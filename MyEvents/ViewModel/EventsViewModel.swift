@@ -5,7 +5,7 @@
 //  Created by Анастасия on 07.02.2023.
 //
 
-import Foundation
+import UIKit
 import RxSwift
 import RxCocoa
 
@@ -13,6 +13,7 @@ final class EventsViewModel {
     
     var appCoordinator: AppCoordinator
     var events: BehaviorSubject<[Event]>
+    var imageCache = NSCache<NSString, UIImage>()
     
     init(appCoordinator: AppCoordinator, events: BehaviorSubject<[Event]>) {
         self.appCoordinator = appCoordinator
@@ -57,6 +58,25 @@ final class EventsViewModel {
             }
         }
         return images![0].url
+    }
+    
+    func loadImage(with urlString: String?, complition: @escaping (_: UIImage) -> Void) {
+        guard urlString != nil else { return }
+        if let cachedImage = imageCache.object(forKey: urlString! as NSString) {
+            complition(cachedImage)
+            return
+        }
+        guard let url = URL(string: urlString!) else { return }
+        DispatchQueue.global().async {
+            if let data = try? Data(contentsOf: url) {
+                if let image = UIImage(data: data) {
+                    DispatchQueue.main.async { [weak self] in
+                        self?.imageCache.setObject(image, forKey: urlString! as NSString)
+                        complition(image)
+                    }
+                }
+            }
+        }
     }
     
     func getDate(day: String?, time: String?) -> Date? {

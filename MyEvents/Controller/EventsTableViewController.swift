@@ -39,8 +39,9 @@ final class EventsTableViewController: UIViewController {
     
     private func bindTableView() {
         eventsTableView.rx.setDelegate(self).disposed(by: disposeBag)
-        viewModel.events.bind(to: eventsTableView.rx.items(cellIdentifier: K.cellIndentifier, cellType: EventsTableViewCell.self)) { row, item, cell in
-            cell.setCell(with: item)
+        viewModel.events.bind(to: eventsTableView.rx.items(cellIdentifier: K.cellIndentifier, cellType: EventsTableViewCell.self)) { [weak self] row, item, cell in
+            guard let self = self else { return }
+            cell.setCell(viewModel: self.viewModel, row: row)
         }
         .disposed(by: disposeBag)
     }

@@ -37,17 +37,21 @@ class EventsTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
-    func setCell(with event: Event) {
-        nameLabel.text = event.name
-        if event.visited {
-            nameLabel.textColor = .purple
-        } else {
-            nameLabel.textColor = .blue
+    func setCell(viewModel: EventsViewModel, row: Int) {
+        if let event = try? viewModel.events.value()[row] {
+            nameLabel.text = event.name
+            if event.visited {
+                nameLabel.textColor = .purple
+            } else {
+                nameLabel.textColor = .blue
+            }
+            if let date = event.date {
+                dateLabel.text = getDateString(date: date)
+            }
+            viewModel.loadImage(with: event.imageUrl) { [weak self] image in
+                self?.eventImageView.image = image
+            }
         }
-        if let date = event.date {
-            dateLabel.text = getDateString(date: date)
-        }
-        setImage(with: event.imageUrl)
         layoutView()
     }
     
@@ -81,19 +85,5 @@ class EventsTableViewCell: UITableViewCell {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "EEEE, d MMM, HH:mm"
         return dateFormatter.string(from: date)
-    }
-    
-    func setImage(with urlString: String?) {
-        guard urlString != nil else { return }
-        guard let url = URL(string: urlString!) else { return }
-        DispatchQueue.global().async { [weak self] in
-            if let data = try? Data(contentsOf: url) {
-                if let image = UIImage(data: data) {
-                    DispatchQueue.main.async {
-                        self?.eventImageView.image = image
-                    }
-                }
-            }
-        }
     }
 }
