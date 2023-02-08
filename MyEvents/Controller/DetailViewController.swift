@@ -15,10 +15,6 @@ class DetailViewController: UIViewController {
     private let event: Event
     private let eventIndex: Int
     
-    private var disposeBag = DisposeBag()
-    
-    let isGoing = BehaviorRelay<Bool>(value: false)
-    
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -53,7 +49,7 @@ class DetailViewController: UIViewController {
     }()
     
     private func bind() {
-        isGoing.asObservable().subscribe { [weak self] going in
+        viewModel.isGoing.asObservable().subscribe { [weak self] going in
             if going {
                 self?.goingButton.backgroundColor = .secondarySystemFill
                 self?.goingButton.setTitleColor(.blue, for: .normal)
@@ -63,14 +59,15 @@ class DetailViewController: UIViewController {
                 self?.goingButton.setTitleColor(.white, for: .normal)
                 self?.goingButton.setTitle("I'm going!", for: .normal)
             }
-        }.disposed(by: disposeBag)
+        }
+        .disposed(by: viewModel.disposeBag)
     }
     
     init(event: Event, image: UIImage?, viewModel: DetailViewModel, index: Int) {
         self.event = event
         self.viewModel = viewModel
         self.eventIndex = index
-        isGoing.accept(event.going)
+        viewModel.isGoing.accept(event.going)
         super.init(nibName: nil, bundle: nil)
         eventImageView.image = image
         bind()
@@ -92,9 +89,6 @@ class DetailViewController: UIViewController {
     
     @objc private func goingButtonPressed() {
         viewModel.goToEvent(with: eventIndex)
-        var value = isGoing.value
-        value.toggle()
-        isGoing.accept(value)
     }
     
     private func layoutView() {
