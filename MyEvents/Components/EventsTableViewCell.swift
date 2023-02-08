@@ -9,7 +9,7 @@ import UIKit
 
 class EventsTableViewCell: UITableViewCell {
     
-    private lazy var visitedLabel: UILabel = {
+    private lazy var dateLabel: UILabel = {
         let label = UILabel()
         label.textColor = .secondaryLabel
         label.font = .systemFont(ofSize: 11, weight: .light)
@@ -22,6 +22,11 @@ class EventsTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var eventImageView: UIImageView = {
+        let imageView = UIImageView()
+        return imageView
+    }()
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: .value1, reuseIdentifier: K.cellIndentifier)
     }
@@ -32,34 +37,39 @@ class EventsTableViewCell: UITableViewCell {
     
     func setCell(with event: Event) {
         nameLabel.text = event.name
-        visitedLabel.text = getVisitedString(for: event.visited)
+        if event.visited {
+            nameLabel.textColor = .purple
+        } else {
+            nameLabel.textColor = .blue
+        }
+        if let date = event.date {
+            dateLabel.text = getDateString(date: date)
+        }
         layoutView()
     }
     
     func layoutView() {
-        addSubview(visitedLabel)
+        addSubview(dateLabel)
         addSubview(nameLabel)
         setConstrains()
     }
     
     func setConstrains() {
-        visitedLabel.translatesAutoresizingMaskIntoConstraints = false
-        visitedLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
-        visitedLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
-        visitedLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        dateLabel.translatesAutoresizingMaskIntoConstraints = false
+        dateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
+        dateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
+        dateLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
         nameLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
-        nameLabel.topAnchor.constraint(equalTo: visitedLabel.bottomAnchor, constant: 6).isActive = true
+        nameLabel.topAnchor.constraint(equalTo: dateLabel.bottomAnchor, constant: 6).isActive = true
         nameLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16).isActive = true
     }
     
-    func getVisitedString(for visited: Int) -> String {
-        if visited == 1 {
-            return "visited 1 time"
-        } else {
-            return "visited \(visited) times"
-        }
+    func getDateString(date: Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "EEEE, d MMM, HH:mm"
+        return dateFormatter.string(from: date)
     }
 }

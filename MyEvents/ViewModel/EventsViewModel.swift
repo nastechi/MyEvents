@@ -39,7 +39,7 @@ final class EventsViewModel {
                 let type = decodedData._embedded.events[i].type
                 let imageUrl = getImageUrl(images: decodedData._embedded.events[i].images)
                 let date = getDate(day: decodedData._embedded.events[i].dates.start.localDate, time: decodedData._embedded.events[i].dates.start.localTime)
-                let event = Event(name: name, type: type, imageUrl: imageUrl, date: date, visited: 0)
+                let event = Event(name: name, type: type, imageUrl: imageUrl, date: date, visited: false)
                 events.append(event)
                 if i > 20 { break }
             }
@@ -71,7 +71,7 @@ final class EventsViewModel {
         if var eventsArray = try? events.value() {
             let event = eventsArray[indexPath.row]
             appCoordinator.goToDetailPage(event: event)
-            eventsArray[indexPath.row].visited += 1
+            eventsArray[indexPath.row].visited = true
             events.onNext(eventsArray)
         }
     }
