@@ -6,11 +6,18 @@
 //
 
 import UIKit
+import RxSwift
+import RxCocoa
 
 class DetailViewController: UIViewController {
     
     private let viewModel: DetailViewModel
     private let event: Event
+    private let eventIndex: Int
+    
+    private var disposeBag = DisposeBag()
+    
+    let isGoing = BehaviorRelay<Bool>(value: false)
     
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
@@ -35,11 +42,38 @@ class DetailViewController: UIViewController {
         return imageView
     }()
     
-    init(event: Event, image: UIImage?, viewModel: DetailViewModel) {
+    private lazy var goingButton: UIButton = {
+        let button = UIButton()
+        button.setTitle("I'm going!", for: .normal)
+        button.addTarget(self, action: #selector(goingButtonPressed), for: .touchUpInside)
+        button.setTitleColor(.white, for: .normal)
+        button.backgroundColor = .blue
+        button.layer.cornerRadius = 10
+        return button
+    }()
+    
+    private func bind() {
+        isGoing.asObservable().subscribe { [weak self] going in
+            if going {
+                self?.goingButton.backgroundColor = .secondarySystemFill
+                self?.goingButton.setTitleColor(.blue, for: .normal)
+                self?.goingButton.setTitle("You are already going", for: .normal)
+            } else {
+                self?.goingButton.backgroundColor = .blue
+                self?.goingButton.setTitleColor(.white, for: .normal)
+                self?.goingButton.setTitle("I'm going!", for: .normal)
+            }
+        }.disposed(by: disposeBag)
+    }
+    
+    init(event: Event, image: UIImage?, viewModel: DetailViewModel, index: Int) {
         self.event = event
         self.viewModel = viewModel
+        self.eventIndex = index
+        isGoing.accept(event.going)
         super.init(nibName: nil, bundle: nil)
         eventImageView.image = image
+        bind()
     }
     
     required init?(coder: NSCoder) {
@@ -56,10 +90,18 @@ class DetailViewController: UIViewController {
         viewModel.goBack()
     }
     
+    @objc private func goingButtonPressed() {
+        viewModel.goToEvent(with: eventIndex)
+        var value = isGoing.value
+        value.toggle()
+        isGoing.accept(value)
+    }
+    
     private func layoutView() {
         view.addSubview(backButton)
         view.addSubview(titleLabel)
         view.addSubview(eventImageView)
+        view.addSubview(goingButton)
         setConstrains()
     }
     
@@ -78,5 +120,10 @@ class DetailViewController: UIViewController {
         eventImageView.topAnchor.constraint(equalTo: titleLabel.bottomAnchor, constant: 6).isActive = true
         eventImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
         eventImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
+        
+        goingButton.translatesAutoresizingMaskIntoConstraints = false
+        goingButton.topAnchor.constraint(equalTo: eventImageView.bottomAnchor, constant: 6).isActive = true
+        goingButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16).isActive = true
+        goingButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16).isActive = true
     }
 }

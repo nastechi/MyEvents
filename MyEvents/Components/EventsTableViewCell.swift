@@ -16,6 +16,13 @@ class EventsTableViewCell: UITableViewCell {
         return label
     }()
     
+    private lazy var goingLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = .blue
+        label.font = .systemFont(ofSize: 11, weight: .bold)
+        return label
+    }()
+    
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.numberOfLines = 0
@@ -51,6 +58,11 @@ class EventsTableViewCell: UITableViewCell {
             viewModel.loadImage(with: event.imageUrl) { [weak self] image in
                 self?.eventImageView.image = image
             }
+            if event.going {
+                goingLabel.text = "I'm going"
+            } else {
+                goingLabel.text = nil
+            }
         }
         layoutView()
     }
@@ -59,6 +71,7 @@ class EventsTableViewCell: UITableViewCell {
         addSubview(dateLabel)
         addSubview(nameLabel)
         addSubview(eventImageView)
+        addSubview(goingLabel)
         setConstrains()
     }
     
@@ -67,6 +80,10 @@ class EventsTableViewCell: UITableViewCell {
         dateLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true
         dateLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
         dateLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
+        
+        goingLabel.translatesAutoresizingMaskIntoConstraints = false
+        goingLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16).isActive = true
+        goingLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16).isActive = true
         
         nameLabel.translatesAutoresizingMaskIntoConstraints = false
         nameLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16).isActive = true

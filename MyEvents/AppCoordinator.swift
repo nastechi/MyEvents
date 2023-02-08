@@ -41,13 +41,20 @@ class AppCoordinator: Coordinator {
         navigationController.pushViewController(eventsVC, animated: true)
     }
     
-    func goToDetailPage(event: Event, image: UIImage?) {
+    func goToDetailPage(event: Event, image: UIImage?, index: Int) {
         let viewModel = DetailViewModel(appCoordinator: self)
-        let detailVC = DetailViewController(event: event, image: image, viewModel: viewModel)
+        let detailVC = DetailViewController(event: event, image: image, viewModel: viewModel, index: index)
         navigationController.pushViewController(detailVC, animated: true)
     }
     
     func goBack() {
         navigationController.popViewController(animated: true)
+    }
+    
+    func goToEvent(with index: Int) {
+        if var newEvents = try? events.value() {
+            newEvents[index].going.toggle()
+            events.onNext(newEvents)
+        }
     }
 }

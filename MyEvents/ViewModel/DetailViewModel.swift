@@ -18,4 +18,8 @@ class DetailViewModel {
     func goBack() {
         appCoordinator.goBack()
     }
+    
+    func goToEvent(with index: Int) {
+        appCoordinator.goToEvent(with: index)
+    }
 }

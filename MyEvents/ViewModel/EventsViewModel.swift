@@ -40,7 +40,7 @@ final class EventsViewModel {
                 let type = decodedData._embedded.events[i].type
                 let imageUrl = getImageUrl(images: decodedData._embedded.events[i].images)
                 let date = getDate(day: decodedData._embedded.events[i].dates.start.localDate, time: decodedData._embedded.events[i].dates.start.localTime)
-                let event = Event(name: name, type: type, imageUrl: imageUrl, date: date, visited: false)
+                let event = Event(name: name, type: type, imageUrl: imageUrl, date: date, visited: false, going: false)
                 events.append(event)
                 if i > 20 { break }
             }
@@ -92,9 +92,9 @@ final class EventsViewModel {
             let event = eventsArray[indexPath.row]
             if let imageUrl = event.imageUrl {
                 let image = imageCache.object(forKey: imageUrl as NSString)
-                appCoordinator.goToDetailPage(event: event, image: image)
+                appCoordinator.goToDetailPage(event: event, image: image, index: indexPath.row)
             } else {
-                appCoordinator.goToDetailPage(event: event, image: nil)
+                appCoordinator.goToDetailPage(event: event, image: nil, index: indexPath.row)
             }
             eventsArray[indexPath.row].visited = true
             events.onNext(eventsArray)
